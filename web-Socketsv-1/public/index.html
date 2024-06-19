@@ -6,12 +6,27 @@
     <title>Document</title>
 </head>
 <body>
-    <h2>this is a chat app </h2>
-<script>
+    <h2>This is a chat app</h2>
+    <input id="input" type="text">
+    <button id="sendbutton">Send</button>
 
-    
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const sendbtn = document.getElementById("sendbutton");
+        const messageinput = document.getElementById("input");
 
-</script>
+        const socket = io();
+
+        socket.on("user-message", (message)=>{
+            console.log(message)
+        })
+
+        sendbtn.addEventListener("click", (e) => {
+            const message = messageinput.value;
+            console.log("Sending message:", message);
+            socket.emit("user-message", message); // Include the message as the second argument
+            messageinput.value = ""; // Clear the input after sending the message
+        });
+    </script>
 </body>
-
 </html>
